@@ -3,7 +3,7 @@
 
 Name:           ddcutil
 Version:        0.9.9
-Release:        1
+Release:        2
 Summary:        Query and update monitor settings
 License:        GPLv2+
 URL:            http://www.ddcutil.com
@@ -67,6 +67,9 @@ Development files for libddcutil
 chmod -x ChangeLog NEWS.md
 
 %build
+%if "%toolchain"=="clang"
+export CFLAGS="$CFLAGS  -Wno-error=unused-but-set-variable -Wno-error=initializer-overrides -Wno-error=logical-not-parentheses -Wno-error=header-guard"
+%endif
 %configure \
 %if %{with build_lib}
     --enable-lib=yes
@@ -100,5 +103,8 @@ chmod -x ChangeLog NEWS.md
 %endif
 
 %changelog
+* Thu Jun 16 2023 zhangxiang <zhangxiang@iscas.ac.cn> - 0.9.9-2
+- Fix clang build error
+
 * Mon Feb 21 2022 douyan <douyan@kylinos.cn> - 0.9.9-1
 - update to upstream version 0.9.9
